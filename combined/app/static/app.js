@@ -1,10 +1,20 @@
 const state = { slug: "schwab-demo", runId: null, waitingNode: null };
+const displayDomain = "https://short.demo";
 const nodes = [...document.querySelectorAll(".node")];
 
 function setText(id, value) {
   document.getElementById(id).textContent = value ?? "-";
 }
 
+function showLinkResult(slug) {
+  const box = document.getElementById("shortenResult");
+  box.classList.remove("error");
+  box.innerHTML = `
+    <span class="result-label">Short link</span>
+    <a class="short-link" href="/${slug}" target="_blank" rel="noreferrer">${displayDomain}/${slug}</a>
+    <span class="result-note">Opens through this local demo app.</span>
+  `;
+}
 function showResult(message, isError = false) {
   const box = document.getElementById("shortenResult");
   box.textContent = message;
@@ -24,11 +34,11 @@ async function request(path, options = {}) {
 async function refreshStats() {
   try {
     const stats = await request(`/stats/${state.slug}`);
-    setText("statSlug", `/${stats.slug}`);
+    setText("statSlug", `${displayDomain}/${stats.slug}`);
     setText("statClicks", stats.clicks);
     setText("statLast", stats.last_accessed_at || "Not opened yet");
   } catch (error) {
-    setText("statSlug", state.slug ? `/${state.slug}` : "-");
+    setText("statSlug", state.slug ? `${displayDomain}/${state.slug}` : "-");
     setText("statClicks", "-");
     setText("statLast", error.message);
   }
@@ -84,7 +94,7 @@ document.getElementById("shortenForm").addEventListener("submit", async (event) 
       body: JSON.stringify({ url: target, custom_slug: slug || null }),
     });
     state.slug = created.slug;
-    showResult(`Created short endpoint /${created.slug}. Open /${created.slug} to test redirect and increment analytics.`);
+    showLinkResult(created.slug);
     await refreshStats();
   } catch (error) {
     state.slug = slug;
@@ -119,6 +129,7 @@ document.getElementById("approveRelease").addEventListener("click", async () => 
 document.getElementById("scenarioSelect").addEventListener("change", (event) => resetDag(event.target.value));
 resetDag("greenfield");
 refreshStats();
+
 
 
 

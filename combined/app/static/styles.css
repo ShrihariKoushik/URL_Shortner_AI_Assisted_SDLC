@@ -155,3 +155,28 @@ body[data-scenario="ambiguous"] .optional.ambiguous { display: grid; }
   .parallel { grid-template-columns: 1fr; }
   h1 { font-size: 42px; }
 }
+.result-label {
+  display: block;
+  margin-bottom: 4px;
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+.short-link {
+  display: block;
+  color: var(--brand-dark);
+  font-size: 18px;
+  font-weight: 900;
+  text-decoration: none;
+  overflow-wrap: anywhere;
+}
+.short-link:hover {
+  text-decoration: underline;
+}
+.result-note {
+  display: block;
+  margin-top: 6px;
+  color: var(--muted);
+  font-size: 13px;
+}
