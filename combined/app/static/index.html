@@ -110,6 +110,23 @@
           <article><h3>Brownfield</h3><p>Add analytics safely by proving impacted modules and preserving current behavior.</p></article>
           <article><h3>Ambiguous</h3><p>Pause for clarification when the request is vague, then continue with approved assumptions.</p></article>
         </div>
+        <div class="scenario-lab">
+          <div class="panel-header">
+            <div>
+              <p class="eyebrow">Scenario test lab</p>
+              <h3>Run evaluator scenarios from the UI</h3>
+            </div>
+            <label class="toggle"><input id="scenarioAutoApprove" type="checkbox" checked /> Auto approve release</label>
+          </div>
+          <div class="scenario-actions">
+            <button type="button" class="scenario-button" data-scenario-run="greenfield">Test Greenfield</button>
+            <button type="button" class="scenario-button" data-scenario-run="brownfield">Test Brownfield</button>
+            <button type="button" class="scenario-button" data-scenario-run="ambiguous">Test Ambiguous</button>
+          </div>
+          <div class="scenario-output" id="scenarioOutput">
+            <p>Select a scenario to generate live workflow evidence.</p>
+          </div>
+        </div>
       </section>
 
       <section class="docs-panel" id="docs">
@@ -117,13 +134,7 @@
         <div class="doc-links"><a href="/static/docs-readme.html">README preview</a><a href="/docs">Swagger API</a><a href="/reports/analysis">Evaluator briefing PDF</a><a href="/reports/analysis/greenfield">Greenfield delivery PDF</a><a href="/reports/analysis/brownfield">Brownfield change-risk PDF</a><a href="/reports/analysis/ambiguous">Ambiguous clarification PDF</a><a class="hidden" id="downloadSdlc" href="#">SDLC run PDF</a><a class="hidden" id="downloadSdlcJson" href="#">JSON evidence</a></div>
       </section>
     </main>
-    <script src="/static/app.js?v=5"></script>
+    <script src="/static/app.js?v=6"></script>
   </body>
 </html>
-
-
-
-
-
-
 
