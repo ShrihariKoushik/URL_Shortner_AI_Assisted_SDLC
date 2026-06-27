@@ -2,7 +2,7 @@ from functools import lru_cache
 from pathlib import Path
 
 from fastapi import Depends, FastAPI, HTTPException, status
-from fastapi.responses import FileResponse, PlainTextResponse, RedirectResponse
+from fastapi.responses import FileResponse, RedirectResponse
 from fastapi.staticfiles import StaticFiles
 
 from app.audit import AuditLogger
@@ -19,7 +19,7 @@ from app.models import (
     UrlStatsResponse,
 )
 from app.orchestrator import SdlcOrchestrator
-from app.reports import build_analysis_report, build_sdlc_report_from_run, save_json_report, save_report
+from app.reports import build_analysis_pdf, build_sdlc_pdf_from_run, save_json_report
 from app.url_service import SlugAlreadyExistsError, UrlNotFoundError, UrlService
 
 app = FastAPI(
@@ -83,30 +83,26 @@ def stats(slug: str, service: UrlService = Depends(get_url_service)):
 
 
 
-@app.get("/reports/analysis", response_class=PlainTextResponse)
+@app.get("/reports/analysis")
 def analysis_report():
-    content = build_analysis_report()
-    save_report("analysis_report.md", content)
-    return PlainTextResponse(
-        content,
-        media_type="text/markdown",
-        headers={"Content-Disposition": "attachment; filename=analysis_report.md"},
-    )
+    path = build_analysis_pdf("overall")
+    return FileResponse(path, media_type="application/pdf", filename="analysis_overall.pdf")
 
 
-@app.get("/agent/runs/{run_id}/report", response_class=PlainTextResponse)
+@app.get("/reports/analysis/{scenario}")
+def scenario_analysis_report(scenario: str):
+    path = build_analysis_pdf(scenario)
+    return FileResponse(path, media_type="application/pdf", filename=f"analysis_{scenario}.pdf")
+
+
+@app.get("/agent/runs/{run_id}/report")
 def workflow_report(run_id: str):
     try:
         run = get_orchestrator().get(run_id)
     except KeyError as exc:
         raise HTTPException(status_code=404, detail="workflow run not found") from exc
-    content = build_sdlc_report_from_run(run)
-    save_report(f"sdlc_report_{run_id}.md", content)
-    return PlainTextResponse(
-        content,
-        media_type="text/markdown",
-        headers={"Content-Disposition": f"attachment; filename=sdlc_report_{run_id}.md"},
-    )
+    path = build_sdlc_pdf_from_run(run)
+    return FileResponse(path, media_type="application/pdf", filename=f"sdlc_report_{run_id}.pdf")
 
 
 @app.get("/agent/runs/{run_id}/report.json")
@@ -145,6 +141,7 @@ def approve_run(run_id: str, node_id: str, request: ApprovalRequest):
         return get_orchestrator().approve(run_id, node_id, request.approved, request.approver, request.comment)
     except KeyError as exc:
         raise HTTPException(status_code=404, detail="workflow run not found") from exc
+
 
 
 

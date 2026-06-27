@@ -24,11 +24,11 @@ async function request(path, options = {}) {
 async function refreshStats() {
   try {
     const stats = await request(`/stats/${state.slug}`);
-    setText("statSlug", stats.slug);
+    setText("statSlug", `/${stats.slug}`);
     setText("statClicks", stats.clicks);
     setText("statLast", stats.last_accessed_at || "Not opened yet");
   } catch (error) {
-    setText("statSlug", state.slug);
+    setText("statSlug", state.slug ? `/${state.slug}` : "-");
     setText("statClicks", "-");
     setText("statLast", error.message);
   }
@@ -77,14 +77,14 @@ function renderRun(run) {
 document.getElementById("shortenForm").addEventListener("submit", async (event) => {
   event.preventDefault();
   const target = document.getElementById("targetUrl").value;
-  const slug = document.getElementById("customSlug").value;
+  const slug = document.getElementById("customSlug").value.trim();
   try {
     const created = await request("/shorten", {
       method: "POST",
-      body: JSON.stringify({ url: target, custom_slug: slug }),
+      body: JSON.stringify({ url: target, custom_slug: slug || null }),
     });
     state.slug = created.slug;
-    showResult(`Created ${window.location.origin}/${created.slug}. Open it to increment analytics.`);
+    showResult(`Created short endpoint /${created.slug}. Open /${created.slug} to test redirect and increment analytics.`);
     await refreshStats();
   } catch (error) {
     state.slug = slug;
@@ -119,5 +119,6 @@ document.getElementById("approveRelease").addEventListener("click", async () => 
 document.getElementById("scenarioSelect").addEventListener("change", (event) => resetDag(event.target.value));
 resetDag("greenfield");
 refreshStats();
+
 
 

@@ -30,7 +30,7 @@
         </div>
         <form class="shortener-panel" id="shortenForm">
           <label>Target URL <input id="targetUrl" type="url" value="https://www.schwab.com" required /></label>
-          <label>Custom slug <input id="customSlug" value="schwab-demo" pattern="[A-Za-z0-9_-]{3,64}" required /></label>
+          <label>Custom endpoint optional <input id="customSlug" value="schwab-demo" pattern="[A-Za-z0-9_-]{3,64}" /></label>
           <button type="submit">Create short link</button>
           <div class="result" id="shortenResult">Ready to create a reviewable demo link.</div>
         </form>
@@ -43,7 +43,7 @@
             <button class="secondary" id="refreshStats">Refresh</button>
           </div>
           <dl class="stats-list">
-            <div><dt>Slug</dt><dd id="statSlug">-</dd></div>
+            <div><dt>Endpoint</dt><dd id="statSlug">-</dd></div>
             <div><dt>Clicks</dt><dd id="statClicks">-</dd></div>
             <div><dt>Last accessed</dt><dd id="statLast">-</dd></div>
           </dl>
@@ -114,12 +114,13 @@
 
       <section class="docs-panel" id="docs">
         <div><p class="eyebrow">Submission package</p><h2>Docs are copied into this UI version</h2></div>
-        <div class="doc-links"><a href="/static/docs-readme.html">README preview</a><a href="/docs">Swagger API</a><a href="/reports/analysis">Download analysis report</a><a class="hidden" id="downloadSdlc" href="#">Download SDLC report</a><a class="hidden" id="downloadSdlcJson" href="#">Download JSON evidence</a></div>
+        <div class="doc-links"><a href="/static/docs-readme.html">README preview</a><a href="/docs">Swagger API</a><a href="/reports/analysis">Overall analysis PDF</a><a href="/reports/analysis/greenfield">Greenfield analysis PDF</a><a href="/reports/analysis/brownfield">Brownfield analysis PDF</a><a class="hidden" id="downloadSdlc" href="#">SDLC run PDF</a><a class="hidden" id="downloadSdlcJson" href="#">JSON evidence</a></div>
       </section>
     </main>
-    <script src="/static/app.js?v=3"></script>
+    <script src="/static/app.js?v=4"></script>
   </body>
 </html>
+
 
 
 

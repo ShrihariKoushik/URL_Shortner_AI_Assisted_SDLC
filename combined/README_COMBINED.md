@@ -6,7 +6,7 @@ This folder combines the strongest parts of both efforts:
 - Reviewer-friendly UI for normal users
 - Swagger API docs for technical reviewers
 - CLI-style agentic SDLC trace with audit logs, summaries, retry, replan, and approval evidence
-- Downloadable analysis and SDLC reports from the UI
+- Downloadable PDF analysis and SDLC reports from the UI
 
 ## Run The UI
 
@@ -65,3 +65,4 @@ From the UI Docs section:
 3. Download the analysis and SDLC reports.
 4. Show Swagger for API reviewers.
 5. Run `python -m run all --auto-approve` to show the enterprise-style trace with retry and replan.
+
