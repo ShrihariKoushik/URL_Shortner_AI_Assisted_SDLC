@@ -40,8 +40,14 @@ class RunWorkflowRequest(BaseModel):
     change_request: str | None = None
 
 
+class ExecuteChangeRequest(BaseModel):
+    requirement: str = Field(min_length=10, max_length=1000)
+    auto_approve: bool = False
+
+
 class ApprovalRequest(BaseModel):
     approved: bool
     approver: str = "human-reviewer"
     comment: str | None = None
+
 

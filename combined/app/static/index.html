@@ -15,6 +15,7 @@
       <nav aria-label="Console sections">
         <a href="#shortener">Shortener</a>
         <a href="#workflow">Workflow</a>
+        <a href="#execution">Execution</a>
         <a href="#scenarios">Scenarios</a>
         <a href="#docs">Docs</a>
       </nav>
@@ -102,6 +103,30 @@
         </div>
       </section>
 
+
+      <section class="execution" id="execution">
+        <div class="panel-header">
+          <div>
+            <p class="eyebrow">End-to-end agentic execution</p>
+            <h2>Submit a requirement, apply a real change, run tests</h2>
+          </div>
+          <label class="toggle"><input id="executeAutoApprove" type="checkbox" checked /> Approve code change</label>
+        </div>
+        <div class="execution-layout">
+          <div class="execution-inputs">
+            <label class="requirement-box">
+              New requirement
+              <textarea id="executeRequirement" rows="5">Enhance the existing URL shortener with expiry dates so expired links stop redirecting, clicks are not counted after expiry, and tests prove the behavior.</textarea>
+            </label>
+            <div class="scenario-actions">
+              <button type="button" class="scenario-button" id="executeChange">Execute requirement</button>
+            </div>
+          </div>
+          <div class="execution-output" id="executionOutput">
+            <p>Run a requirement to see task decomposition, impacted files, generated patch, test output, and release evidence.</p>
+          </div>
+        </div>
+      </section>
       <section class="scenarios" id="scenarios">
         <p class="eyebrow">Three evaluator scenarios</p>
         <h2>Explain it in business language</h2>
@@ -138,8 +163,9 @@
         <div class="doc-links"><a href="/static/docs-readme.html">README preview</a><a href="/docs">Swagger API</a><a href="/reports/analysis">Evaluator briefing PDF</a><a href="/reports/analysis/greenfield">Greenfield delivery PDF</a><a href="/reports/analysis/brownfield">Brownfield change-risk PDF</a><a href="/reports/analysis/ambiguous">Ambiguous clarification PDF</a><a class="hidden" id="downloadSdlc" href="#">SDLC run PDF</a><a class="hidden" id="downloadSdlcJson" href="#">JSON evidence</a></div>
       </section>
     </main>
-    <script src="/static/app.js?v=7"></script>
+    <script src="/static/app.js?v=8"></script>
   </body>
 </html>
+
 
 

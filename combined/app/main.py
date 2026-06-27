@@ -6,12 +6,14 @@ from fastapi.responses import FileResponse, RedirectResponse
 from fastapi.staticfiles import StaticFiles
 
 from app.audit import AuditLogger
+from app.change_executor import ChangeExecutor
 from app.config import Settings, get_settings
 from app.database import Database
 from app.llm import LlmClient
 from app.models import (
     ApprovalRequest,
     CreateShortUrlRequest,
+    ExecuteChangeRequest,
     HealthResponse,
     RunWorkflowRequest,
     ScenarioName,
@@ -49,6 +51,11 @@ def get_orchestrator() -> SdlcOrchestrator:
         llm=LlmClient(settings.openai_api_key, settings.openai_model),
         require_human_approval=settings.require_human_approval,
     )
+
+
+@lru_cache
+def get_change_executor() -> ChangeExecutor:
+    return ChangeExecutor()
 
 
 @app.get("/", include_in_schema=False)
@@ -127,6 +134,11 @@ def run_scenario(scenario: ScenarioName, request: RunWorkflowRequest):
     return get_orchestrator().start(scenario.value, request.change_request, request.auto_approve)
 
 
+@app.post("/agent/execute-change")
+def execute_change(request: ExecuteChangeRequest):
+    return get_change_executor().execute(request.requirement, request.auto_approve)
+
+
 @app.get("/agent/runs/{run_id}")
 def get_run(run_id: str):
     try:
@@ -141,6 +153,10 @@ def approve_run(run_id: str, node_id: str, request: ApprovalRequest):
         return get_orchestrator().approve(run_id, node_id, request.approved, request.approver, request.comment)
     except KeyError as exc:
         raise HTTPException(status_code=404, detail="workflow run not found") from exc
+
+
+
+
 
 
 

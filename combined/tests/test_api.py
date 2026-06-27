@@ -53,3 +53,25 @@ def test_orchestrator_approval_flow(tmp_path):
     assert approved.status_code == 200
     assert approved.json()["status"] == "completed"
 
+
+def test_execute_change_api_returns_real_patch_and_test_evidence(monkeypatch, tmp_path):
+    from app.change_executor import ChangeExecutor
+    import app.main as main_module
+
+    monkeypatch.setattr(main_module, "get_change_executor", lambda: ChangeExecutor(tmp_path / "change_runs"))
+    client = TestClient(app)
+
+    response = client.post(
+        "/agent/execute-change",
+        json={
+            "requirement": "Enhance the existing shortener with expiry dates and tests.",
+            "auto_approve": True,
+        },
+    )
+
+    assert response.status_code == 200
+    body = response.json()
+    assert body["status"] == "completed"
+    assert body["patch"]["applied"] is True
+    assert body["validation"]["passed"] is True
+    assert body["tasks"]
