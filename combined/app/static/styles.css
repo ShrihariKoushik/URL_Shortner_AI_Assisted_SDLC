@@ -252,3 +252,25 @@ body[data-scenario="ambiguous"] .optional.ambiguous { display: grid; }
 @media (max-width: 760px) {
   .stage-list { grid-template-columns: 1fr; }
 }
+.requirement-box {
+  display: grid;
+  gap: 8px;
+  margin-top: 14px;
+  color: var(--brand-dark);
+  font-weight: 800;
+}
+.requirement-box textarea {
+  width: 100%;
+  min-height: 110px;
+  resize: vertical;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 12px;
+  font: inherit;
+  color: var(--ink);
+  background: #fff;
+}
+.requirement-box textarea:focus {
+  outline: 3px solid rgba(38, 132, 89, 0.18);
+  border-color: var(--brand);
+}

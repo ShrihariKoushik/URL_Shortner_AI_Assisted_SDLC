@@ -118,6 +118,10 @@
             </div>
             <label class="toggle"><input id="scenarioAutoApprove" type="checkbox" checked /> Auto approve release</label>
           </div>
+          <label class="requirement-box">
+            Requirement to drive through SDLC
+            <textarea id="scenarioRequirement" rows="4">Build a production-grade URL shortener with custom endpoints, click analytics, audit logs, approval-gated release, and PDF evidence for reviewers.</textarea>
+          </label>
           <div class="scenario-actions">
             <button type="button" class="scenario-button" data-scenario-run="greenfield">Test Greenfield</button>
             <button type="button" class="scenario-button" data-scenario-run="brownfield">Test Brownfield</button>
@@ -134,7 +138,8 @@
         <div class="doc-links"><a href="/static/docs-readme.html">README preview</a><a href="/docs">Swagger API</a><a href="/reports/analysis">Evaluator briefing PDF</a><a href="/reports/analysis/greenfield">Greenfield delivery PDF</a><a href="/reports/analysis/brownfield">Brownfield change-risk PDF</a><a href="/reports/analysis/ambiguous">Ambiguous clarification PDF</a><a class="hidden" id="downloadSdlc" href="#">SDLC run PDF</a><a class="hidden" id="downloadSdlcJson" href="#">JSON evidence</a></div>
       </section>
     </main>
-    <script src="/static/app.js?v=6"></script>
+    <script src="/static/app.js?v=7"></script>
   </body>
 </html>
+
 

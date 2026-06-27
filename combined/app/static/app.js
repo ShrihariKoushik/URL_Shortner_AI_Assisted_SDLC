@@ -31,6 +31,15 @@ async function request(path, options = {}) {
   return body;
 }
 
+function escapeHtml(value) {
+  return String(value ?? "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+}
+
 async function refreshStats() {
   try {
     const stats = await request(`/stats/${state.slug}`);
@@ -176,6 +185,8 @@ function renderScenarioOutput(run, scenario) {
     <div class="scenario-proof">
       <h4>${proof.title}</h4>
       <p>${proof.proves}</p>
+      <p><strong>Submitted requirement:</strong> ${escapeHtml(context.change_request || "Default scenario requirement")}</p>
+      <p><strong>Normalized by requirements agent:</strong> ${escapeHtml(context.normalized_requirement || "Pending")}</p>
       <p><strong>Evaluator should watch:</strong> ${proof.watch}</p>
       <p><strong>Run status:</strong> ${run.status}</p>
     </div>
@@ -214,11 +225,12 @@ function renderScenarioOutput(run, scenario) {
 async function runScenarioLab(scenario) {
   const output = document.getElementById("scenarioOutput");
   const autoApprove = document.getElementById("scenarioAutoApprove").checked;
+  const requirement = document.getElementById("scenarioRequirement").value.trim();
   output.innerHTML = `<p>Running ${scenario} scenario against /agent/scenarios/${scenario}/run...</p>`;
   resetDag(scenario);
   const run = await request(`/agent/scenarios/${scenario}/run`, {
     method: "POST",
-    body: JSON.stringify({ auto_approve: autoApprove }),
+    body: JSON.stringify({ auto_approve: autoApprove, change_request: requirement || null }),
   });
   renderScenarioOutput(run, scenario);
   renderRun(run);
@@ -227,3 +239,4 @@ async function runScenarioLab(scenario) {
 document.querySelectorAll("[data-scenario-run]").forEach((button) => {
   button.addEventListener("click", () => runScenarioLab(button.dataset.scenarioRun));
 });
+
