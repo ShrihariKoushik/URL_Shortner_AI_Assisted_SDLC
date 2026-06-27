@@ -1,0 +1,2 @@
+"""Agentic URL shortener application."""
+

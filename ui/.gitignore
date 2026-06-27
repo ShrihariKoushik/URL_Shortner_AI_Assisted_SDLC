@@ -1,0 +1,13 @@
+__pycache__/
+.pytest_cache/
+.ruff_cache/
+.venv/
+*.pyc
+.env
+data/
+dist/
+build/
+*.egg-info/
+
+
+Assignment Agentic-Proficient Software Engineer.pdf
