@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Agentic URL Shortener Console</title>
+    <link rel="stylesheet" href="/static/styles.css" />
+  </head>
+  <body data-scenario="greenfield">
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="brand-mark">AS</div>
+        <div><strong>Agentic Shortener</strong><span>SDLC demo console</span></div>
+      </div>
+      <nav aria-label="Console sections">
+        <a href="#shortener">Shortener</a>
+        <a href="#workflow">Workflow</a>
+        <a href="#scenarios">Scenarios</a>
+        <a href="#docs">Docs</a>
+      </nav>
+      <a class="api-link" href="/docs">Open API docs</a>
+    </aside>
+
+    <main>
+      <section class="hero" id="shortener">
+        <div>
+          <p class="eyebrow">Production-grade take-home prototype</p>
+          <h1>URL shortener with governed agentic software delivery.</h1>
+          <p class="lede">Create links, watch analytics, run SDLC workflows, and show the approval trail without opening a terminal.</p>
+        </div>
+        <form class="shortener-panel" id="shortenForm">
+          <label>Target URL <input id="targetUrl" type="url" value="https://www.schwab.com" required /></label>
+          <label>Custom slug <input id="customSlug" value="schwab-demo" pattern="[A-Za-z0-9_-]{3,64}" required /></label>
+          <button type="submit">Create short link</button>
+          <div class="result" id="shortenResult">Ready to create a reviewable demo link.</div>
+        </form>
+      </section>
+
+      <section class="section-grid">
+        <article class="panel">
+          <div class="panel-header">
+            <div><p class="eyebrow">Live analytics</p><h2>Link performance</h2></div>
+            <button class="secondary" id="refreshStats">Refresh</button>
+          </div>
+          <dl class="stats-list">
+            <div><dt>Slug</dt><dd id="statSlug">-</dd></div>
+            <div><dt>Clicks</dt><dd id="statClicks">-</dd></div>
+            <div><dt>Last accessed</dt><dd id="statLast">-</dd></div>
+          </dl>
+        </article>
+        <article class="panel">
+          <p class="eyebrow">Reliability controls</p>
+          <h2>What normal users can understand</h2>
+          <ul class="check-list">
+            <li>Work moves through visible stages.</li>
+            <li>Important release actions pause for approval.</li>
+            <li>Failures are contained with retry, fallback, rollback, and safe-stop controls.</li>
+            <li>Metrics show whether autonomy is reliable.</li>
+          </ul>
+        </article>
+      </section>
+
+      <section class="workflow" id="workflow">
+        <div class="panel-header">
+          <div><p class="eyebrow">Agentic SDLC orchestration</p><h2>DAG workflow</h2></div>
+          <div class="controls">
+            <select id="scenarioSelect" aria-label="Scenario">
+              <option value="greenfield">Greenfield</option>
+              <option value="brownfield">Brownfield</option>
+              <option value="ambiguous">Ambiguous</option>
+            </select>
+            <label class="toggle"><input id="autoApprove" type="checkbox" /> Auto approve</label>
+            <button id="runWorkflow">Run workflow</button>
+          </div>
+        </div>
+        <div class="workflow-layout">
+          <div class="dag" id="dag">
+            <div class="node" data-node="requirements">Requirements</div>
+            <div class="node optional brownfield" data-node="impact_analysis">Impact analysis</div>
+            <div class="node optional ambiguous" data-node="clarification">Clarification</div>
+            <div class="node" data-node="architecture">Architecture</div>
+            <div class="parallel">
+              <div class="node" data-node="implementation">Implementation</div>
+              <div class="node" data-node="tests">Tests</div>
+              <div class="node" data-node="security">Security</div>
+            </div>
+            <div class="node" data-node="docs">Documentation</div>
+            <div class="node" data-node="release">Release gate</div>
+          </div>
+          <aside class="run-card">
+            <h3>Current run</h3>
+            <p id="runStatus">No workflow has run yet.</p>
+            <button class="secondary hidden" id="approveRelease">Approve checkpoint</button>
+            <dl class="metrics">
+              <div><dt>Success rate</dt><dd id="metricSuccess">-</dd></div>
+              <div><dt>Retries</dt><dd id="metricRetries">-</dd></div>
+              <div><dt>Fallbacks</dt><dd id="metricFallbacks">-</dd></div>
+              <div><dt>Rollbacks</dt><dd id="metricRollbacks">-</dd></div>
+              <div><dt>Latency</dt><dd id="metricLatency">-</dd></div>
+            </dl>
+          </aside>
+        </div>
+      </section>
+
+      <section class="scenarios" id="scenarios">
+        <p class="eyebrow">Three evaluator scenarios</p>
+        <h2>Explain it in business language</h2>
+        <div class="scenario-grid">
+          <article><h3>Greenfield</h3><p>Build a new shortener from a clear requirement, then gate release behind review.</p></article>
+          <article><h3>Brownfield</h3><p>Add analytics safely by proving impacted modules and preserving current behavior.</p></article>
+          <article><h3>Ambiguous</h3><p>Pause for clarification when the request is vague, then continue with approved assumptions.</p></article>
+        </div>
+      </section>
+
+      <section class="docs-panel" id="docs">
+        <div><p class="eyebrow">Submission package</p><h2>Docs are copied into this UI version</h2></div>
+        <div class="doc-links"><a href="/static/docs-readme.html">README preview</a><a href="/docs">Swagger API</a><a href="/reports/analysis">Download analysis report</a><a class="hidden" id="downloadSdlc" href="#">Download SDLC report</a><a class="hidden" id="downloadSdlcJson" href="#">Download JSON evidence</a></div>
+      </section>
+    </main>
+    <script src="/static/app.js?v=3"></script>
+  </body>
+</html>
+
+
+
