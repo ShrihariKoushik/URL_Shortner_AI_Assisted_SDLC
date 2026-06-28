@@ -23,21 +23,18 @@
         background: var(--bg);
         line-height: 1.55;
       }
-      header {
-        background: #ffffff;
-        border-bottom: 1px solid var(--line);
-      }
-      .wrap { width: min(1180px, calc(100% - 32px)); margin: 0 auto; }
-      .hero { padding: 48px 0 34px; display: grid; gap: 24px; grid-template-columns: 1.1fr 0.9fr; align-items: center; }
+      header { background: #ffffff; border-bottom: 1px solid var(--line); }
+      .wrap { width: min(1120px, calc(100% - 32px)); margin: 0 auto; }
+      .hero { padding: 44px 0 34px; display: grid; gap: 24px; grid-template-columns: 1.15fr 0.85fr; align-items: center; }
       .eyebrow { margin: 0 0 8px; color: var(--accent); font-weight: 800; text-transform: uppercase; letter-spacing: .06em; font-size: 13px; }
-      h1 { margin: 0; font-size: clamp(34px, 5vw, 58px); line-height: 1.02; letter-spacing: 0; }
-      h2 { margin: 0 0 14px; font-size: 26px; }
+      h1 { margin: 0; font-size: clamp(34px, 5vw, 56px); line-height: 1.03; letter-spacing: 0; }
+      h2 { margin: 0 0 14px; font-size: 25px; }
       h3 { margin: 0 0 6px; font-size: 18px; }
       p { margin: 0 0 14px; }
       .lede { font-size: 19px; color: var(--muted); max-width: 760px; margin-top: 18px; }
-      .hero-card, .card, .shot { background: var(--panel); border: 1px solid var(--line); border-radius: 8px; }
-      .hero-card { padding: 22px; }
-      .hero-card ul, .card ul { margin: 12px 0 0; padding-left: 20px; }
+      .panel, .card, .shot { background: var(--panel); border: 1px solid var(--line); border-radius: 8px; }
+      .panel { padding: 22px; }
+      .panel ul, .card ul { margin: 12px 0 0; padding-left: 20px; }
       .actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 22px; }
       .btn { display: inline-flex; align-items: center; justify-content: center; min-height: 42px; padding: 0 16px; border-radius: 6px; background: var(--accent); color: #fff; text-decoration: none; font-weight: 800; }
       .btn.secondary { background: var(--accent-2); }
@@ -47,13 +44,13 @@
       .status { color: var(--accent); font-weight: 800; }
       .section { margin-top: 34px; }
       .two { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
-      .shot { overflow: hidden; margin-top: 12px; }
+      .shot { overflow: hidden; margin-top: 12px; max-height: 520px; }
       .shot img { display: block; width: 100%; height: auto; }
       code { background: #eef3f8; padding: 2px 6px; border-radius: 4px; }
-      pre { background: #102033; color: #f6fbff; padding: 16px; border-radius: 8px; overflow: auto; }
       table { width: 100%; border-collapse: collapse; background: #fff; border: 1px solid var(--line); border-radius: 8px; overflow: hidden; }
       th, td { border-bottom: 1px solid var(--line); padding: 12px; text-align: left; vertical-align: top; }
       th { background: var(--soft); }
+      a { color: #005f8f; font-weight: 700; }
       @media (max-width: 900px) { .hero, .two, .grid { grid-template-columns: 1fr; } }
     </style>
   </head>
@@ -62,23 +59,22 @@
       <div class="wrap hero">
         <div>
           <p class="eyebrow">AI-assisted software engineering prototype</p>
-          <h1>URL Shortener with AI-Assisted SDLC Evidence</h1>
-          <p class="lede">A production-style FastAPI prototype that transforms a requirement into a reviewable engineering outcome while keeping the engineer in control of correctness, sign-off, and readiness.</p>
+          <h1>URL Shortener with Reviewable SDLC Evidence</h1>
+          <p class="lede">A FastAPI URL shortener that demonstrates requirement understanding, task decomposition, AI-assisted execution, validation, and controlled engineer oversight.</p>
           <div class="actions">
             <a class="btn" href="https://cs-url.onrender.com">Live Demo</a>
             <a class="btn secondary" href="https://cs-url.onrender.com/docs">API Docs</a>
-            <a class="btn secondary" href="../ai_assisted_shortener/README.md">Setup</a>
-            <a class="btn secondary" href="../ai_assisted_shortener/docs/DELIVERABLES.md">Deliverables</a>
-            <a class="btn secondary" href="../ai_assisted_shortener/docs/COMPLIANCE_MATRIX.md">Compliance Matrix</a>
+            <a class="btn secondary" href="https://github.com/ShrihariKoushik/URL_Shortner_AI_Assisted_SDLC/tree/main/ai_assisted_shortener">View Code</a>
+            <a class="btn secondary" href="https://github.com/ShrihariKoushik/URL_Shortner_AI_Assisted_SDLC">GitHub Repo</a>
           </div>
         </div>
-        <aside class="hero-card">
-          <h2>What reviewers can verify</h2>
+        <aside class="panel">
+          <h2>Project Evidence</h2>
           <ul>
             <li>Runnable URL shortener with analytics and reliability controls.</li>
-            <li>Greenfield, brownfield, and ambiguous scenarios.</li>
-            <li>Requirement understanding, decomposition, codebase reasoning, AI traceability, quality gates, risks, and summary.</li>
-            <li>Engineer/business approval and isolated implementation package generation.</li>
+            <li>Greenfield, brownfield, and ambiguous scenario handling.</li>
+            <li>Traceable AI assistance with engineer approval and quality gates.</li>
+            <li>Downloadable implementation packages generated in isolated workspaces.</li>
           </ul>
         </aside>
       </div>
@@ -92,55 +88,42 @@
         <article class="card"><h3>Validation</h3><p class="status">Complete</p><p>pytest, ruff, smoke gates, security checks, generated-package validation.</p></article>
       </section>
 
-      <section class="section">
-        <h2>Run Locally</h2>
-        <pre><code>cd ai_assisted_shortener
-python -m pip install -r requirements.txt
-python -m uvicorn app.main:app --host 127.0.0.1 --port 8010</code></pre>
-        <p>Open <code>http://127.0.0.1:8010/</code> for the UI and <code>http://127.0.0.1:8010/docs</code> for API docs.</p>
-      </section>
-
       <section class="section two">
-        <article>
-          <h2>Working Prototype UI</h2>
-          <p>Users can create links, inspect analytics, and run AI-assisted engineering scenarios from the same page.</p>
-          <div class="shot"><img src="assets/01-working-prototype.png" alt="Working prototype UI" /></div>
+        <article class="panel">
+          <h2>Open The Project</h2>
+          <p>The live backend is deployed on Render. GitHub Pages is the static project hub.</p>
+          <p><a href="https://cs-url.onrender.com">Open live URL shortener</a></p>
+          <p><a href="https://cs-url.onrender.com/docs">Open live API docs</a></p>
+          <p><a href="https://github.com/ShrihariKoushik/URL_Shortner_AI_Assisted_SDLC/tree/main/ai_assisted_shortener/app">Browse backend and UI code</a></p>
         </article>
-        <article>
-          <h2>Backend API Docs</h2>
-          <p>FastAPI exposes OpenAPI/Swagger definitions for shortener, engineering, and implementation routes.</p>
-          <div class="shot"><img src="assets/03-api-docs.png" alt="FastAPI Swagger API docs" /></div>
-        </article>
-      </section>
-
-      <section class="section two">
-        <article>
-          <h2>Engineering Evidence</h2>
-          <p>Each run shows intent, ambiguity, normalized problem, task graph, impacted components, traceability, gates, and risks.</p>
-          <div class="shot"><img src="assets/02-engineering-evidence.png" alt="Engineering evidence UI" /></div>
-        </article>
-        <article>
-          <h2>Generated Implementation Preview</h2>
-          <p>Approved requirements produce a separate generated workspace with changed files, tests, report, validation JSON, zip download, and UI preview.</p>
-          <div class="shot"><img src="assets/04-generated-preview.png" alt="Generated implementation preview" /></div>
+        <article class="panel">
+          <h2>Run Locally</h2>
+          <p><code>cd ai_assisted_shortener</code></p>
+          <p><code>python -m pip install -r requirements.txt</code></p>
+          <p><code>python -m uvicorn app.main:app --host 127.0.0.1 --port 8010</code></p>
         </article>
       </section>
 
       <section class="section">
-        <h2>Deliverable Mapping</h2>
+        <h2>Application Snapshot</h2>
+        <p>A single snapshot is included here for visual context. Use the live demo and repository links above for the actual application and code.</p>
+        <div class="shot"><img src="assets/01-working-prototype.png" alt="Working prototype UI" /></div>
+      </section>
+
+      <section class="section">
+        <h2>Deliverable Links</h2>
         <table>
-          <thead><tr><th>Required Deliverable</th><th>Where to Review</th></tr></thead>
+          <thead><tr><th>Deliverable</th><th>Link</th></tr></thead>
           <tbody>
-            <tr><td>Working prototype</td><td><code>ai_assisted_shortener/app</code>, local UI, Swagger docs</td></tr>
-            <tr><td>Architecture overview</td><td><code>ai_assisted_shortener/docs/ARCHITECTURE.md</code></td></tr>
-            <tr><td>Three scenarios</td><td><code>ai_assisted_shortener/docs/SCENARIOS.md</code> and Engineering UI</td></tr>
-            <tr><td>Setup instructions</td><td><code>README.md</code> and <code>ai_assisted_shortener/README.md</code></td></tr>
-            <tr><td>Testing, limitations, trade-offs</td><td><code>ai_assisted_shortener/docs/TESTING.md</code></td></tr>
-            <tr><td>Requirement compliance</td><td><code>ai_assisted_shortener/docs/COMPLIANCE_MATRIX.md</code></td></tr>
+            <tr><td>Source code</td><td><a href="https://github.com/ShrihariKoushik/URL_Shortner_AI_Assisted_SDLC/tree/main/ai_assisted_shortener">ai_assisted_shortener/</a></td></tr>
+            <tr><td>Architecture overview</td><td><a href="https://github.com/ShrihariKoushik/URL_Shortner_AI_Assisted_SDLC/blob/main/ai_assisted_shortener/docs/ARCHITECTURE.md">ARCHITECTURE.md</a></td></tr>
+            <tr><td>Scenario evidence</td><td><a href="https://github.com/ShrihariKoushik/URL_Shortner_AI_Assisted_SDLC/blob/main/ai_assisted_shortener/docs/SCENARIOS.md">SCENARIOS.md</a></td></tr>
+            <tr><td>Testing, limitations, trade-offs</td><td><a href="https://github.com/ShrihariKoushik/URL_Shortner_AI_Assisted_SDLC/blob/main/ai_assisted_shortener/docs/TESTING.md">TESTING.md</a></td></tr>
+            <tr><td>Requirement coverage</td><td><a href="https://github.com/ShrihariKoushik/URL_Shortner_AI_Assisted_SDLC/blob/main/ai_assisted_shortener/docs/COMPLIANCE_MATRIX.md">COMPLIANCE_MATRIX.md</a></td></tr>
+            <tr><td>Deliverables checklist</td><td><a href="https://github.com/ShrihariKoushik/URL_Shortner_AI_Assisted_SDLC/blob/main/ai_assisted_shortener/docs/DELIVERABLES.md">DELIVERABLES.md</a></td></tr>
           </tbody>
         </table>
       </section>
     </main>
   </body>
 </html>
-
