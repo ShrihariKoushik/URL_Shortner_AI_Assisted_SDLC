@@ -130,13 +130,13 @@ BLUEPRINTS: dict[ScenarioName, ScenarioBlueprint] = {
             {"task": "G-TEST", "prompt_intent": "Ask AI to propose edge-case tests for redirect controls.", "constraints": ["Tests must be deterministic", "No network calls"], "ai_suggestion": "Test expired link, click limit, duplicate endpoint, and stats increment.", "engineer_action": "accepted", "rationale": "Suggestions matched product risks and were implemented with local TestClient."},
         ],
         engineer_decisions=[
-            {"decision": "SQLite instead of Redis for prototype", "rationale": "Durable local setup with simple evaluator run path; Redis can be introduced behind service interface."},
+            {"decision": "SQLite instead of Redis for prototype", "rationale": "Durable local setup with a simple run path; Redis can be introduced behind the service interface."},
             {"decision": "Redirect path prefixed with /r", "rationale": "Avoids collision with UI/API/docs routes and reserved endpoints."},
         ],
         quality_gates=[
             {"name": "static_analysis", "status": "passed", "evidence": "ruff check ."},
             {"name": "unit_integration_tests", "status": "passed", "evidence": "pytest validates service and API behavior"},
-            {"name": "security_review", "status": "passed", "evidence": "Endpoint allowlist, no secret logging, local-only demo config"},
+            {"name": "security_review", "status": "passed", "evidence": "Endpoint allowlist, no secret logging, local-only configuration"},
             {"name": "performance_review", "status": "accepted_with_limits", "evidence": "SQLite is adequate for prototype, not horizontal scale"},
         ],
         risks=[
@@ -1207,3 +1207,4 @@ class EngineeringEvidenceService:
                 """,
                 (evidence["run_id"], evidence["scenario"], evidence["submitted_requirement"], evidence["status"], evidence["created_at"], json.dumps(evidence)),
             )
+

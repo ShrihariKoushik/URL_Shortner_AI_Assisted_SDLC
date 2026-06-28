@@ -1,6 +1,6 @@
 # URL Shortener AI-Assisted SDLC
 
-Working prototype for the Charles Schwab take-home assessment: an engineer-led, AI-assisted software engineering system that turns a requirement into a reviewable engineering outcome.
+Production-grade prototype for engineer-led, AI-assisted software delivery: a URL shortener that turns a requirement into a reviewable engineering outcome.
 
 The runnable project is in [`ai_assisted_shortener`](./ai_assisted_shortener).
 
@@ -8,7 +8,7 @@ The runnable project is in [`ai_assisted_shortener`](./ai_assisted_shortener).
 
 - Working FastAPI + SQLite URL shortener, runnable end to end.
 - Architecture overview covering components, tools, execution approach, control flow, and key decisions.
-- Three evaluator scenarios: greenfield, brownfield, and ambiguous.
+- Three review scenarios: greenfield, brownfield, and ambiguous.
 - AI-assisted execution evidence with requirement understanding, decomposition, codebase reasoning, traceability, quality gates, risk controls, and sign-off.
 - Generated implementation package flow with preview/download, isolated workspace, validation, and rollback safety.
 - Setup instructions, testing approach, limitations, and trade-offs.
@@ -48,7 +48,7 @@ python -m pytest -q
 python -m ruff check .
 ```
 
-## Evaluator Flow
+## Review Flow
 
 1. Create a short link in the UI.
 2. Open `/docs` to show API/schema definitions.
@@ -60,3 +60,4 @@ python -m ruff check .
 ## GitHub Pages
 
 The static reviewer page lives in [`docs/index.html`](./docs/index.html). In GitHub, enable Pages from the `main` branch and `/docs` folder.
+

@@ -28,14 +28,14 @@
           <p class="lede">Create links, validate redirects, view analytics, and generate reviewable engineering evidence from a requirement.</p>
         </div>
         <form id="linkForm" class="panel link-panel">
-          <label>Target URL <input id="targetUrl" type="url" value="https://www.schwab.com" required /></label>
-          <label>Custom endpoint <input id="customEndpoint" value="advisor-demo" pattern="[A-Za-z0-9_-]{3,64}" /></label>
+          <label>Target URL <input id="targetUrl" type="url" placeholder="https://example.com" required /></label>
+          <label>Custom endpoint <input id="customEndpoint" placeholder="optional" pattern="[A-Za-z0-9_-]{3,64}" /></label>
           <div class="two-col">
             <label>Max clicks <input id="maxClicks" type="number" min="1" max="1000000" placeholder="optional" /></label>
             <label>Expiry <input id="expiresAt" type="datetime-local" /></label>
           </div>
           <button type="submit">Create link</button>
-          <div class="result" id="linkResult">Ready to create a governed demo link.</div>
+          <div class="result" id="linkResult">Ready to create a governed short link.</div>
         </form>
       </section>
 
@@ -93,4 +93,6 @@
     <script src="/static/app.js?v=3"></script>
   </body>
 </html>
+
+
 

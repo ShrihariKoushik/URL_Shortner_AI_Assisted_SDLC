@@ -50,7 +50,7 @@ def test_engineering_evidence_requires_signoff(tmp_path):
         "/engineering/execute",
         json={
             "scenario": "ambiguous",
-            "requirement": "Make links smarter and safer for advisors.",
+            "requirement": "Make links smarter and safer for users.",
             "engineer_signoff": False,
         },
     )
@@ -530,3 +530,4 @@ def test_assumptions_and_limitations_follow_the_requirement(tmp_path):
     assert expiry["assumptions"] != custom["assumptions"]
     assert any("expired" in limitation.lower() for limitation in expiry["limitations"])
     assert any("route names" in limitation.lower() for limitation in custom["limitations"])
+

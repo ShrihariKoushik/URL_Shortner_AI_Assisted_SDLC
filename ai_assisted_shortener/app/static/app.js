@@ -196,7 +196,7 @@ byId("scenario").addEventListener("change", (event) => {
   const requirements = {
     greenfield: "Build a URL shortener service from scratch with create, redirect, analytics, expiry, max-click limits, tests, and documentation.",
     brownfield: "Enhance the existing shortener with expiry and max-click controls while preserving create, redirect, and analytics behavior.",
-    ambiguous: "Make links safer and smarter for advisors without making the product complicated.",
+    ambiguous: "Make links safer and smarter for users without making the product complicated.",
   };
   byId("requirement").value = requirements[scenario];
   state.approvalRole = null;
@@ -239,4 +239,5 @@ byId("businessApprove").addEventListener("click", () => approveAs("Business"));
 byId("runImplementation").addEventListener("click", runImplementation);
 
 clearStats();
+
 

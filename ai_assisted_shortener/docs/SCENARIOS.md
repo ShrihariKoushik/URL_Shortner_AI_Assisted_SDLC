@@ -47,7 +47,7 @@ redirect, analytics, expiry, max-click limits, tests, and documentation."
 
 ## Ambiguous
 
-**Requirement:** "Make links safer and smarter for advisors."
+**Requirement:** "Make links safer and smarter for users."
 
 - **Decomposition:** no concrete capability is detected, so the plan is
   `T-REQ` → `T-SCOPE` (define concrete capabilities with the stakeholder before
@@ -68,10 +68,11 @@ is captured, implementation is blocked, the task list becomes `SCOPE-1..3`, and
 the AI suggestion is recorded as `rejected_for_now`. The system does not silently
 reinterpret them as URL-shortener work.
 
-## What to show evaluators
+## Review flow
 
 1. Run **Greenfield** with sign-off on — point to the sequenced decomposition and the executed quality gates.
 2. Run **Brownfield** with sign-off on — point to the per-capability impact analysis and change-specific risks.
 3. Run **Ambiguous** with sign-off off — show the waiting status and clarify-first plan; then add a note or approve to show it becoming reviewable.
 4. Submit an out-of-scope requirement — show it routed to scope review, not implemented.
 5. Download `summary.md` for any run — it contains plan, trade-offs, artifacts, validation, risks, assumptions, and limitations.
+
