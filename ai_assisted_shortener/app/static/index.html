@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>AI-Assisted URL Shortener</title>
+    <link rel="stylesheet" href="/static/styles.css" />
+  </head>
+  <body>
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="brand-mark">AI</div>
+        <div><strong>Assisted Shortener</strong><span>Engineer-led execution</span></div>
+      </div>
+      <nav>
+        <a href="#shortener">Shortener</a>
+        <a href="#engineering">Engineering</a>
+        <a href="#evidence">Evidence</a>
+        <a href="/docs">API Docs</a>
+      </nav>
+    </aside>
+
+    <main>
+      <section class="hero" id="shortener">
+        <div>
+          <p class="eyebrow">Working prototype</p>
+          <h1>URL shortener built with engineer-led AI assistance.</h1>
+          <p class="lede">Create links, validate redirects, view analytics, and generate reviewable engineering evidence from a requirement.</p>
+        </div>
+        <form id="linkForm" class="panel link-panel">
+          <label>Target URL <input id="targetUrl" type="url" value="https://www.schwab.com" required /></label>
+          <label>Custom endpoint <input id="customEndpoint" value="advisor-demo" pattern="[A-Za-z0-9_-]{3,64}" /></label>
+          <div class="two-col">
+            <label>Max clicks <input id="maxClicks" type="number" min="1" max="1000000" placeholder="optional" /></label>
+            <label>Expiry <input id="expiresAt" type="datetime-local" /></label>
+          </div>
+          <button type="submit">Create link</button>
+          <div class="result" id="linkResult">Ready to create a governed demo link.</div>
+        </form>
+      </section>
+
+      <section class="grid">
+        <article class="panel">
+          <div class="panel-header"><div><p class="eyebrow">Analytics</p><h2>Link stats</h2></div><button class="secondary" id="refreshStats">Refresh</button></div>
+          <dl class="stats">
+            <div><dt>Endpoint</dt><dd id="statEndpoint">-</dd></div>
+            <div><dt>Clicks</dt><dd id="statClicks">-</dd></div>
+            <div><dt>Last outcome</dt><dd id="statOutcome">-</dd></div>
+            <div><dt>Last accessed</dt><dd id="statLast">-</dd></div>
+          </dl>
+        </article>
+        <article class="panel">
+          <p class="eyebrow">Reliability controls</p>
+          <h2>Built-in production thinking</h2>
+          <ul class="check-list">
+            <li>Reserved endpoint validation prevents route collisions.</li>
+            <li>Expired, disabled, and exhausted links fail safely.</li>
+            <li>Click events record successful and blocked outcomes.</li>
+            <li>Engineer sign-off gates reviewable outcomes.</li>
+          </ul>
+        </article>
+      </section>
+
+      <section class="engineering" id="engineering">
+        <div class="panel-header">
+          <div><p class="eyebrow">AI-assisted engineering execution</p><h2>Requirement to reviewable outcome</h2></div>
+          <label class="toggle"><input id="engineerSignoff" type="checkbox" /> Engineer sign-off</label>
+        </div>
+        <div class="engineering-layout">
+          <div class="panel input-panel">
+            <label>Scenario
+              <select id="scenario">
+                <option value="greenfield">Greenfield</option>
+                <option value="brownfield">Brownfield</option>
+                <option value="ambiguous">Ambiguous</option>
+              </select>
+            </label>
+            <label>Requirement
+              <textarea id="requirement" rows="7">Build a URL shortener service from scratch with create, redirect, analytics, expiry, max-click limits, tests, and documentation.</textarea>
+            </label>
+            <label>Engineer notes
+              <textarea id="engineerNotes" rows="4">AI may suggest options, but engineer owns correctness, tests, trade-offs, and final approval.</textarea>
+            </label>
+            <button id="runEngineering" type="button">Generate engineering outcome</button>
+          </div>
+          <div class="panel evidence-panel" id="evidence">
+            <p>Select a scenario and generate evidence to show decomposition, AI usage, engineer decisions, gates, risks, and summary.</p>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <script src="/static/app.js?v=1"></script>
+  </body>
+</html>
+
