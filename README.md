@@ -4,6 +4,10 @@ Production-grade prototype for engineer-led, AI-assisted software delivery: a UR
 
 The runnable project is in [`ai_assisted_shortener`](./ai_assisted_shortener).
 
+Live app: https://cs-url.onrender.com
+
+Live API docs: https://cs-url.onrender.com/docs
+
 ## Deliverables
 
 - Working FastAPI + SQLite URL shortener, runnable end to end.
@@ -56,6 +60,12 @@ python -m ruff check .
 4. Approve as Engineer or Business to show controlled oversight.
 5. Build a real implementation package and open the generated UI preview.
 6. Download summary/evidence artifacts for review.
+
+## Live Deployment
+
+- Reviewer site: GitHub Pages from `/docs` on the `main` branch.
+- Live FastAPI app: Render at `https://cs-url.onrender.com`.
+- API docs: `https://cs-url.onrender.com/docs`.
 
 ## GitHub Pages
 
