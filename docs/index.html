@@ -45,6 +45,7 @@
       .section { margin-top: 34px; }
       .two { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
       .shot { overflow: hidden; margin-top: 12px; max-height: 520px; }
+      .shot.diagram { max-height: none; }
       .shot img { display: block; width: 100%; height: auto; }
       code { background: #eef3f8; padding: 2px 6px; border-radius: 4px; }
       table { width: 100%; border-collapse: collapse; background: #fff; border: 1px solid var(--line); border-radius: 8px; overflow: hidden; }
@@ -105,8 +106,15 @@
       </section>
 
       <section class="section">
+        <h2>Visual Architecture</h2>
+        <p>These images explain the system for non-technical reviewers without requiring them to open markdown files.</p>
+        <div class="shot diagram"><img src="assets/05-architecture-overview.png" alt="AI-assisted URL shortener architecture diagram" /></div>
+        <div class="shot diagram"><img src="assets/06-engineering-evidence-flow.png" alt="Requirement to reviewable engineering evidence flow" /></div>
+      </section>
+
+      <section class="section">
         <h2>Application Snapshot</h2>
-        <p>A single snapshot is included here for visual context. Use the live demo and repository links above for the actual application and code.</p>
+        <p>A single UI snapshot is included for visual context. Use the live demo and repository links above for the actual application and code.</p>
         <div class="shot"><img src="assets/01-working-prototype.png" alt="Working prototype UI" /></div>
       </section>
 
@@ -127,3 +135,4 @@
     </main>
   </body>
 </html>
+
