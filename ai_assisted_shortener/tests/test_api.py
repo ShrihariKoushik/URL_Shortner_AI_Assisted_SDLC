@@ -77,3 +77,44 @@ def test_engineering_summary_download(tmp_path):
     assert summary.status_code == 200
     assert "Engineering Summary" in summary.text
     assert "Quality Gates" in summary.text
+
+
+def test_engineering_business_approval_role_is_recorded(tmp_path):
+    client = reset_app(tmp_path)
+
+    response = client.post(
+        "/engineering/execute",
+        json={
+            "scenario": "greenfield",
+            "requirement": "Build a URL shortener service from scratch with analytics and docs.",
+            "engineer_signoff": True,
+            "approval_role": "Business",
+        },
+    )
+
+    assert response.status_code == 200
+    body = response.json()
+    assert body["status"] == "reviewable_outcome_ready"
+    assert body["approval_role"] == "Business"
+    assert body["compliance_matrix"]
+
+
+def test_out_of_scope_qr_requirement_requires_scope_review(tmp_path):
+    client = reset_app(tmp_path)
+
+    response = client.post(
+        "/engineering/execute",
+        json={
+            "scenario": "brownfield",
+            "requirement": "Generate QR codes for every shortened link.",
+            "engineer_signoff": True,
+            "approval_role": "Engineer",
+        },
+    )
+
+    assert response.status_code == 200
+    body = response.json()
+    assert body["status"] == "scope_review_required"
+    assert body["scope_assessment"]["status"] == "scope_review_required"
+    assert body["task_decomposition"][0]["id"] == "SCOPE-1"
+    assert body["ai_assisted_execution"][0]["engineer_action"] == "rejected_for_now"

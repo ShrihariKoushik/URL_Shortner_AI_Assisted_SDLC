@@ -117,6 +117,7 @@ def execute_requirement(
         request.requirement,
         request.engineer_notes,
         request.engineer_signoff,
+        request.approval_role,
     )
 
 
@@ -134,3 +135,5 @@ def engineering_summary(run_id: str, service: EngineeringEvidenceService = Depen
         return service.markdown_summary(run_id)
     except KeyError as exc:
         raise HTTPException(status_code=404, detail="engineering run not found") from exc
+
+

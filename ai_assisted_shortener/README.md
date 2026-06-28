@@ -59,3 +59,8 @@ This is not autonomous orchestration. It demonstrates AI-assisted engineering ex
 - AI suggestions are recorded as generated, edited, accepted, or rejected.
 - Engineer owns correctness and final sign-off.
 - Quality gates include analysis, linting, tests, security review, and trade-off review.
+
+## Requirement Coverage
+
+See [docs/COMPLIANCE_MATRIX.md](docs/COMPLIANCE_MATRIX.md) for a line-by-line mapping from the assessment requirements to project evidence.
+

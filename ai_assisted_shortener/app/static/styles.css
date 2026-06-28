@@ -135,3 +135,16 @@ pre {
   main { padding: 16px; }
   .two-col, .stats { grid-template-columns: 1fr; }
 }
+.approval-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.approval-note {
+  padding: 10px 12px;
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  background: #f8fafc;
+  color: var(--muted);
+  font-weight: 800;
+}

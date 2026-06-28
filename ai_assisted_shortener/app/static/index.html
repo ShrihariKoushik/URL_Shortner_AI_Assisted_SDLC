@@ -64,7 +64,7 @@
       <section class="engineering" id="engineering">
         <div class="panel-header">
           <div><p class="eyebrow">AI-assisted engineering execution</p><h2>Requirement to reviewable outcome</h2></div>
-          <label class="toggle"><input id="engineerSignoff" type="checkbox" /> Engineer sign-off</label>
+          <div class="approval-actions"><button class="secondary" id="engineerApprove" type="button">Engineer approve</button><button class="secondary" id="businessApprove" type="button">Business approve</button></div>
         </div>
         <div class="engineering-layout">
           <div class="panel input-panel">
@@ -81,7 +81,7 @@
             <label>Engineer notes
               <textarea id="engineerNotes" rows="4">AI may suggest options, but engineer owns correctness, tests, trade-offs, and final approval.</textarea>
             </label>
-            <button id="runEngineering" type="button">Generate engineering outcome</button>
+            <button id="runEngineering" type="button">Generate without approval</button><div class="approval-note" id="approvalNote">No approval recorded yet.</div>
           </div>
           <div class="panel evidence-panel" id="evidence">
             <p>Select a scenario and generate evidence to show decomposition, AI usage, engineer decisions, gates, risks, and summary.</p>
@@ -90,7 +90,8 @@
       </section>
     </main>
 
-    <script src="/static/app.js?v=1"></script>
+    <script src="/static/app.js?v=2"></script>
   </body>
 </html>
+
 

@@ -1,4 +1,4 @@
-const state = { code: "advisor-demo", lastRunId: null };
+const state = { code: null, lastRunId: null, approvalRole: null };
 
 function byId(id) {
   return document.getElementById(id);
@@ -27,15 +27,29 @@ function setText(id, value) {
   byId(id).textContent = value ?? "-";
 }
 
+function clearStats(message = "Create a link first") {
+  setText("statEndpoint", "-");
+  setText("statClicks", "-");
+  setText("statOutcome", message);
+  setText("statLast", "-");
+}
+
 function renderLink(link) {
   state.code = link.code;
   byId("linkResult").innerHTML = `
     Short link: <a href="${link.short_url}" target="_blank" rel="noreferrer">${escapeHtml(link.short_url)}</a>
   `;
-  refreshStats();
+  setText("statEndpoint", link.short_url);
+  setText("statClicks", link.clicks);
+  setText("statOutcome", "No visits yet");
+  setText("statLast", "No visits yet");
 }
 
 async function refreshStats() {
+  if (!state.code) {
+    clearStats();
+    return;
+  }
   try {
     const stats = await request(`/api/links/${state.code}/stats`);
     setText("statEndpoint", stats.short_url);
@@ -43,10 +57,7 @@ async function refreshStats() {
     setText("statOutcome", stats.last_outcome || "No visits yet");
     setText("statLast", stats.last_accessed_at || "No visits yet");
   } catch (error) {
-    setText("statEndpoint", state.code || "-");
-    setText("statClicks", "-");
-    setText("statOutcome", error.message);
-    setText("statLast", "-");
+    clearStats(error.message);
   }
 }
 
@@ -83,6 +94,8 @@ function renderEvidence(evidence) {
     <p class="eyebrow">${escapeHtml(evidence.scenario)} scenario</p>
     <h2>${escapeHtml(evidence.title)}</h2>
     <p class="${statusClass}">Status: ${escapeHtml(evidence.status)}</p>
+    <p><strong>Approval:</strong> ${escapeHtml(evidence.approval_role || "Not approved")}</p>
+    <p><strong>Scope:</strong> ${escapeHtml(evidence.scope_assessment?.status || "not assessed")} - ${escapeHtml(evidence.scope_assessment?.decision || "")}</p>
 
     <div class="evidence-section">
       <h4>Requirement understanding</h4>
@@ -119,6 +132,13 @@ function renderEvidence(evidence) {
     </div>
 
     <div class="evidence-section">
+      <h4>Compliance matrix</h4>
+      <ul class="gate-list">
+        ${listItems(evidence.compliance_matrix || [], (item) => `<li><span>${escapeHtml(item.status)}</span><strong>${escapeHtml(item.requirement)}</strong>: ${escapeHtml(item.coverage)}</li>`)}
+      </ul>
+    </div>
+
+    <div class="evidence-section">
       <h4>Risks, assumptions, limitations</h4>
       <pre>${escapeHtml(JSON.stringify({ risks: evidence.risks, assumptions: evidence.assumptions, limitations: evidence.limitations }, null, 2))}</pre>
     </div>
@@ -131,7 +151,7 @@ function renderEvidence(evidence) {
   `;
 }
 
-byId("runEngineering").addEventListener("click", async () => {
+async function runEngineering() {
   const evidencePanel = byId("evidence");
   evidencePanel.innerHTML = "<p>Generating engineer-led AI assistance evidence...</p>";
   try {
@@ -141,13 +161,20 @@ byId("runEngineering").addEventListener("click", async () => {
         scenario: byId("scenario").value,
         requirement: byId("requirement").value,
         engineer_notes: byId("engineerNotes").value,
-        engineer_signoff: byId("engineerSignoff").checked,
+        engineer_signoff: Boolean(state.approvalRole),
+        approval_role: state.approvalRole,
       }),
     });
     renderEvidence(evidence);
   } catch (error) {
     evidencePanel.innerHTML = `<p class="error">${escapeHtml(error.message)}</p>`;
   }
+}
+
+byId("runEngineering").addEventListener("click", () => {
+  state.approvalRole = null;
+  byId("approvalNote").textContent = "Generated without approval. Use approval buttons to sign off.";
+  runEngineering();
 });
 
 byId("scenario").addEventListener("change", (event) => {
@@ -158,7 +185,17 @@ byId("scenario").addEventListener("change", (event) => {
     ambiguous: "Make links safer and smarter for advisors without making the product complicated.",
   };
   byId("requirement").value = requirements[scenario];
-  byId("engineerSignoff").checked = scenario !== "ambiguous";
+  state.approvalRole = null;
+  byId("approvalNote").textContent = "No approval recorded yet.";
 });
 
-refreshStats();
+function approveAs(role) {
+  state.approvalRole = role;
+  byId("approvalNote").textContent = `${role} approval recorded. Generating approved engineering outcome...`;
+  runEngineering();
+}
+
+byId("engineerApprove").addEventListener("click", () => approveAs("Engineer"));
+byId("businessApprove").addEventListener("click", () => approveAs("Business"));
+
+clearStats();
