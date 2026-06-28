@@ -1,20 +1,37 @@
 __pycache__/
 .pytest_cache/
 .ruff_cache/
+.test_tmp/
 .venv/
 *.pyc
 .env
-data/
+.env.local
+.env.example
+
+# Local runtime data
+/data/
+ai_assisted_shortener/data/
+ai_assisted_shortener/generated_workspaces/
+ai_assisted_shortener/.pytest_cache/
+ai_assisted_shortener/.ruff_cache/
+ai_assisted_shortener/.test_tmp/
+
+# Build/package artifacts
 dist/
 build/
 *.egg-info/
 
-
+# Original assignment input
 Assignment Agentic-Proficient Software Engineer.pdf
 
-combined/runs/
-combined/reports/
-combined/data/
-combined/change_runs/
-.test_tmp/
-
+# Earlier prototype iterations kept locally but excluded from the clean submission repo
+/app/
+/tests/
+/ui/
+/combined/
+/pyproject.toml
+/requirements.txt
+/EXPLANATION_FOR_DEMO.md
+/docs/ARCHITECTURE.md
+/docs/SCENARIOS.md
+!ai_assisted_shortener/.env.example

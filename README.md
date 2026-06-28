@@ -1,96 +1,62 @@
-# Agentic URL Shortener
+# URL Shortener AI-Assisted SDLC
 
-Production-grade take-home prototype for a Charles Schwab agentic software engineering assessment. The project combines a runnable FastAPI URL shortener with an agentic SDLC orchestration layer that demonstrates DAG-based execution, gates, human approvals, audit logging, retry/fallback, rollback hooks, and reliability metrics.
+Working prototype for the Charles Schwab take-home assessment: an engineer-led, AI-assisted software engineering system that turns a requirement into a reviewable engineering outcome.
 
-## Features
+The runnable project is in [`ai_assisted_shortener`](./ai_assisted_shortener).
 
-- Create short URLs with optional custom slugs.
-- Redirect short URLs and track click analytics.
-- SQLite persistence for local durability.
-- OpenAI-backed requirement analysis when `OPENAI_API_KEY` is configured.
-- Deterministic fallback when no API key is present, so the demo remains runnable.
-- Agentic SDLC workflow endpoints for greenfield, brownfield, and ambiguous scenarios.
-- Append-only audit log at `./data/audit.log`.
+## Deliverables
 
-## Setup
+- Working FastAPI + SQLite URL shortener, runnable end to end.
+- Architecture overview covering components, tools, execution approach, control flow, and key decisions.
+- Three evaluator scenarios: greenfield, brownfield, and ambiguous.
+- AI-assisted execution evidence with requirement understanding, decomposition, codebase reasoning, traceability, quality gates, risk controls, and sign-off.
+- Generated implementation package flow with preview/download, isolated workspace, validation, and rollback safety.
+- Setup instructions, testing approach, limitations, and trade-offs.
+- GitHub Pages reviewer guide with screenshots in [`docs/index.html`](./docs/index.html).
 
-```bash
-python -m venv .venv
-.\.venv\Scripts\Activate.ps1
-pip install -r requirements.txt
+## Quick Start
+
+```powershell
+cd ai_assisted_shortener
+python -m pip install -r requirements.txt
+python -m uvicorn app.main:app --host 127.0.0.1 --port 8010
+```
+
+Open:
+
+- UI: http://127.0.0.1:8010/
+- API docs: http://127.0.0.1:8010/docs
+- Health: http://127.0.0.1:8010/health
+
+## Optional AI Configuration
+
+The system runs without an API key using deterministic fallback logic. To use a real OpenAI-compatible model:
+
+```powershell
+cd ai_assisted_shortener
 copy .env.example .env
-uvicorn app.main:app --reload
+# edit .env and set AI_SHORTENER_OPENAI_API_KEY
 ```
 
-Open API docs at `http://localhost:8000/docs`.
+Default model: `gpt-4.1`.
 
-## URL Shortener API
+## Validation
 
-Create a URL:
-
-```bash
-curl -X POST http://localhost:8000/shorten ^
-  -H "Content-Type: application/json" ^
-  -d "{\"url\":\"https://example.com\",\"custom_slug\":\"demo\"}"
+```powershell
+cd ai_assisted_shortener
+python -m pytest -q
+python -m ruff check .
 ```
 
-Use the short URL:
+## Evaluator Flow
 
-```bash
-curl -i http://localhost:8000/demo
-```
+1. Create a short link in the UI.
+2. Open `/docs` to show API/schema definitions.
+3. Run Greenfield, Brownfield, and Ambiguous scenarios in the Engineering section.
+4. Approve as Engineer or Business to show controlled oversight.
+5. Build a real implementation package and open the generated UI preview.
+6. Download summary/evidence artifacts for review.
 
-View analytics:
+## GitHub Pages
 
-```bash
-curl http://localhost:8000/stats/demo
-```
-
-## Agentic SDLC API
-
-Run a greenfield workflow and pause at the human release checkpoint:
-
-```bash
-curl -X POST http://localhost:8000/agent/scenarios/greenfield/run ^
-  -H "Content-Type: application/json" ^
-  -d "{\"auto_approve\":false}"
-```
-
-Approve the release node:
-
-```bash
-curl -X POST http://localhost:8000/agent/runs/{run_id}/approve/release ^
-  -H "Content-Type: application/json" ^
-  -d "{\"approved\":true,\"approver\":\"reviewer\",\"comment\":\"approved for demo\"}"
-```
-
-Run all gates without pausing:
-
-```bash
-curl -X POST http://localhost:8000/agent/scenarios/brownfield/run ^
-  -H "Content-Type: application/json" ^
-  -d "{\"auto_approve\":true}"
-```
-
-## Testing
-
-```bash
-pytest
-ruff check .
-```
-
-## Deliverables Map
-
-- Working prototype: `app/main.py`, `app/url_service.py`, `app/database.py`
-- Orchestration model: `app/orchestrator.py`
-- Architecture overview: `docs/ARCHITECTURE.md`
-- Greenfield, brownfield, ambiguous scenarios: `docs/SCENARIOS.md`
-- Tests: `tests/`
-
-## Assumptions and Trade-offs
-
-- SQLite is used for the take-home prototype because it is portable and reviewable. Redis can be added behind the service boundary for high-volume redirect counters or cache-backed slug lookups.
-- The orchestrator executes synchronous Python callables for determinism in tests. In production, the same DAG contract can dispatch work to queues or separate agent workers.
-- Human approval is modeled as an API checkpoint. A production deployment would integrate identity, RBAC, signed approvals, and ticketing.
-- The OpenAI API is optional to avoid making local evaluation dependent on secrets or network availability.
-
+The static reviewer page lives in [`docs/index.html`](./docs/index.html). In GitHub, enable Pages from the `main` branch and `/docs` folder.

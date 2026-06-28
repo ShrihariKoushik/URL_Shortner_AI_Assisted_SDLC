@@ -96,6 +96,8 @@ function renderEvidence(evidence) {
     <p class="${statusClass}">Status: ${escapeHtml(evidence.status)}</p>
     <p><strong>Approval:</strong> ${escapeHtml(evidence.approval_role || "Not approved")}</p>
     <p><strong>Scope:</strong> ${escapeHtml(evidence.scope_assessment?.status || "not assessed")} - ${escapeHtml(evidence.scope_assessment?.decision || "")}</p>
+    <p><strong>AI-captured intent:</strong> ${escapeHtml(evidence.scope_assessment?.captured_intent || "Not captured")} (${escapeHtml(evidence.scope_assessment?.intent_confidence || "unknown")} confidence)</p>
+    <p><strong>Matched terms:</strong> ${escapeHtml((evidence.scope_assessment?.matched_terms || []).join(", ") || "none")}</p>
 
     <div class="evidence-section">
       <h4>Requirement understanding</h4>
@@ -107,7 +109,7 @@ function renderEvidence(evidence) {
     <div class="evidence-section">
       <h4>Task decomposition</h4>
       <ul class="task-list">
-        ${listItems(evidence.task_decomposition, (task) => `<li><span>${escapeHtml(task.id)} depends on ${escapeHtml(JSON.stringify(task.depends_on))}</span>${escapeHtml(task.task)}</li>`)}
+        ${listItems(evidence.task_decomposition, (task) => `<li><span>${escapeHtml(task.id)} depends on ${escapeHtml(JSON.stringify(task.depends_on))}</span><strong>${escapeHtml(task.task)}</strong><br><strong>Intent:</strong> ${escapeHtml(task.intent || "") }<br><strong>Acceptance:</strong> ${escapeHtml((task.acceptance_criteria || []).join("; "))}<br><strong>Context:</strong> ${escapeHtml(task.technical_context || "")}</li>`)}
       </ul>
     </div>
 
@@ -120,7 +122,7 @@ function renderEvidence(evidence) {
     <div class="evidence-section">
       <h4>AI assistance traceability</h4>
       <ul class="trace-list">
-        ${listItems(evidence.ai_assisted_execution, (item) => `<li><span>${escapeHtml(item.task)} · ${escapeHtml(item.engineer_action)}</span><strong>Prompt intent:</strong> ${escapeHtml(item.prompt_intent)}<br><strong>AI suggestion:</strong> ${escapeHtml(item.ai_suggestion)}<br><strong>Engineer rationale:</strong> ${escapeHtml(item.rationale)}</li>`)}
+        ${listItems(evidence.ai_assisted_execution, (item) => `<li><span>${escapeHtml(item.task)} · ${escapeHtml(item.execution_phase || "execution")} · ${escapeHtml(item.engineer_action)}</span><strong>Prompt intent:</strong> ${escapeHtml(item.prompt_intent)}<br><strong>Constraints:</strong> ${escapeHtml((item.constraints || []).join("; "))}<br><strong>Acceptance criteria:</strong> ${escapeHtml((item.acceptance_criteria || []).join("; "))}<br><strong>Technical context:</strong> ${escapeHtml(item.technical_context || "")}<br><strong>AI suggestion:</strong> ${escapeHtml(item.ai_suggestion)}<br><strong>Generated output:</strong> ${escapeHtml(item.generated_output || "")}<br><strong>Engineer rationale:</strong> ${escapeHtml(item.rationale)}<br><strong>Quality signal:</strong> ${escapeHtml(item.quality_signal || "")}</li>`)}
       </ul>
     </div>
 
@@ -151,6 +153,17 @@ function renderEvidence(evidence) {
   `;
 }
 
+function updateApprovalNote(evidence) {
+  if (evidence.scope_assessment?.status === "scope_review_required") {
+    byId("approvalNote").textContent = `${evidence.approval_role || "No"} approval recorded. Scope review is required before implementation.`;
+    return;
+  }
+  if (evidence.approval_role) {
+    byId("approvalNote").textContent = `${evidence.approval_role} approval recorded. Reviewable engineering outcome is ready.`;
+    return;
+  }
+  byId("approvalNote").textContent = "Generated without approval. Sign-off still required.";
+}
 async function runEngineering() {
   const evidencePanel = byId("evidence");
   evidencePanel.innerHTML = "<p>Generating engineer-led AI assistance evidence...</p>";
@@ -166,6 +179,7 @@ async function runEngineering() {
       }),
     });
     renderEvidence(evidence);
+    updateApprovalNote(evidence);
   } catch (error) {
     evidencePanel.innerHTML = `<p class="error">${escapeHtml(error.message)}</p>`;
   }
@@ -195,7 +209,34 @@ function approveAs(role) {
   runEngineering();
 }
 
+async function runImplementation() {
+  const result = byId("implementationResult");
+  result.textContent = "Running security gate and building generated implementation package...";
+  try {
+    const packageResult = await request("/implementation/execute", {
+      method: "POST",
+      body: JSON.stringify({
+        requirement: byId("requirement").value,
+        engineer_signoff: Boolean(state.approvalRole),
+        approval_role: state.approvalRole,
+      }),
+    });
+    const files = (packageResult.files_changed || []).map((item) => `<span>${escapeHtml(item)}</span>`).join("");
+    result.innerHTML = `
+      <strong>Status:</strong> ${escapeHtml(packageResult.status)}<br>
+      <strong>Security:</strong> ${escapeHtml(packageResult.security_review?.status || "unknown")} - ${escapeHtml(packageResult.security_review?.decision || "")}<br>
+      <strong>OpenAI used:</strong> ${escapeHtml(packageResult.used_openai ? "yes" : "no / local fallback")}<br>
+      <strong>Workspace:</strong> ${escapeHtml(packageResult.workspace_path)}
+      <div class="artifact-row">${files}</div>
+      <div class="badge-row"><a class="badge" href="/implementation/runs/${packageResult.run_id}/preview" target="_blank" rel="noreferrer">View generated UI</a><a class="badge" href="/implementation/runs/${packageResult.run_id}/download">Download generated package</a></div>
+    `;
+  } catch (error) {
+    result.innerHTML = `<span class="error">${escapeHtml(error.message)}</span>`;
+  }
+}
 byId("engineerApprove").addEventListener("click", () => approveAs("Engineer"));
 byId("businessApprove").addEventListener("click", () => approveAs("Business"));
+byId("runImplementation").addEventListener("click", runImplementation);
 
 clearStats();
+

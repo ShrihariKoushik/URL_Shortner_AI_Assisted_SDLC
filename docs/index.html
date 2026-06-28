@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>URL Shortener AI-Assisted SDLC</title>
+    <style>
+      :root {
+        --ink: #102033;
+        --muted: #5d6b80;
+        --line: #d8e2ee;
+        --panel: #ffffff;
+        --bg: #f5f8fb;
+        --accent: #006b5f;
+        --accent-2: #164b7a;
+        --soft: #e8f6f3;
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        color: var(--ink);
+        background: var(--bg);
+        line-height: 1.55;
+      }
+      header {
+        background: #ffffff;
+        border-bottom: 1px solid var(--line);
+      }
+      .wrap { width: min(1180px, calc(100% - 32px)); margin: 0 auto; }
+      .hero { padding: 48px 0 34px; display: grid; gap: 24px; grid-template-columns: 1.1fr 0.9fr; align-items: center; }
+      .eyebrow { margin: 0 0 8px; color: var(--accent); font-weight: 800; text-transform: uppercase; letter-spacing: .06em; font-size: 13px; }
+      h1 { margin: 0; font-size: clamp(34px, 5vw, 58px); line-height: 1.02; letter-spacing: 0; }
+      h2 { margin: 0 0 14px; font-size: 26px; }
+      h3 { margin: 0 0 6px; font-size: 18px; }
+      p { margin: 0 0 14px; }
+      .lede { font-size: 19px; color: var(--muted); max-width: 760px; margin-top: 18px; }
+      .hero-card, .card, .shot { background: var(--panel); border: 1px solid var(--line); border-radius: 8px; }
+      .hero-card { padding: 22px; }
+      .hero-card ul, .card ul { margin: 12px 0 0; padding-left: 20px; }
+      .actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 22px; }
+      .btn { display: inline-flex; align-items: center; justify-content: center; min-height: 42px; padding: 0 16px; border-radius: 6px; background: var(--accent); color: #fff; text-decoration: none; font-weight: 800; }
+      .btn.secondary { background: var(--accent-2); }
+      main { padding: 28px 0 56px; }
+      .grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 28px; }
+      .card { padding: 18px; }
+      .status { color: var(--accent); font-weight: 800; }
+      .section { margin-top: 34px; }
+      .two { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+      .shot { overflow: hidden; margin-top: 12px; }
+      .shot img { display: block; width: 100%; height: auto; }
+      code { background: #eef3f8; padding: 2px 6px; border-radius: 4px; }
+      pre { background: #102033; color: #f6fbff; padding: 16px; border-radius: 8px; overflow: auto; }
+      table { width: 100%; border-collapse: collapse; background: #fff; border: 1px solid var(--line); border-radius: 8px; overflow: hidden; }
+      th, td { border-bottom: 1px solid var(--line); padding: 12px; text-align: left; vertical-align: top; }
+      th { background: var(--soft); }
+      @media (max-width: 900px) { .hero, .two, .grid { grid-template-columns: 1fr; } }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="wrap hero">
+        <div>
+          <p class="eyebrow">Charles Schwab take-home assessment</p>
+          <h1>URL Shortener with AI-Assisted SDLC Evidence</h1>
+          <p class="lede">A production-style FastAPI prototype that transforms a requirement into a reviewable engineering outcome while keeping the engineer in control of correctness, sign-off, and readiness.</p>
+          <div class="actions">
+            <a class="btn" href="../ai_assisted_shortener/README.md">Setup</a>
+            <a class="btn secondary" href="../ai_assisted_shortener/docs/DELIVERABLES.md">Deliverables</a>
+            <a class="btn secondary" href="../ai_assisted_shortener/docs/COMPLIANCE_MATRIX.md">Compliance Matrix</a>
+          </div>
+        </div>
+        <aside class="hero-card">
+          <h2>What evaluators can verify</h2>
+          <ul>
+            <li>Runnable URL shortener with analytics and reliability controls.</li>
+            <li>Greenfield, brownfield, and ambiguous scenarios.</li>
+            <li>Requirement understanding, decomposition, codebase reasoning, AI traceability, quality gates, risks, and summary.</li>
+            <li>Engineer/business approval and isolated implementation package generation.</li>
+          </ul>
+        </aside>
+      </div>
+    </header>
+
+    <main class="wrap">
+      <section class="grid">
+        <article class="card"><h3>Prototype</h3><p class="status">Complete</p><p>FastAPI, SQLite, static UI, redirects, stats, disable, expiry, max clicks.</p></article>
+        <article class="card"><h3>Architecture</h3><p class="status">Complete</p><p>Components, tools, execution flow, control flow, and key decisions documented.</p></article>
+        <article class="card"><h3>Scenarios</h3><p class="status">Complete</p><p>Greenfield, brownfield, and ambiguous paths each show execution and validation.</p></article>
+        <article class="card"><h3>Validation</h3><p class="status">Complete</p><p>pytest, ruff, smoke gates, security checks, generated-package validation.</p></article>
+      </section>
+
+      <section class="section">
+        <h2>Run Locally</h2>
+        <pre><code>cd ai_assisted_shortener
+python -m pip install -r requirements.txt
+python -m uvicorn app.main:app --host 127.0.0.1 --port 8010</code></pre>
+        <p>Open <code>http://127.0.0.1:8010/</code> for the UI and <code>http://127.0.0.1:8010/docs</code> for API docs.</p>
+      </section>
+
+      <section class="section two">
+        <article>
+          <h2>Working Prototype UI</h2>
+          <p>The reviewer can create links, inspect analytics, and run AI-assisted engineering scenarios from the same page.</p>
+          <div class="shot"><img src="assets/01-working-prototype.png" alt="Working prototype UI" /></div>
+        </article>
+        <article>
+          <h2>Backend API Docs</h2>
+          <p>FastAPI exposes OpenAPI/Swagger definitions for shortener, engineering, and implementation routes.</p>
+          <div class="shot"><img src="assets/03-api-docs.png" alt="FastAPI Swagger API docs" /></div>
+        </article>
+      </section>
+
+      <section class="section two">
+        <article>
+          <h2>Engineering Evidence</h2>
+          <p>Each run shows intent, ambiguity, normalized problem, task graph, impacted components, traceability, gates, and risks.</p>
+          <div class="shot"><img src="assets/02-engineering-evidence.png" alt="Engineering evidence UI" /></div>
+        </article>
+        <article>
+          <h2>Generated Implementation Preview</h2>
+          <p>Approved requirements produce a separate generated workspace with changed files, tests, report, validation JSON, zip download, and UI preview.</p>
+          <div class="shot"><img src="assets/04-generated-preview.png" alt="Generated implementation preview" /></div>
+        </article>
+      </section>
+
+      <section class="section">
+        <h2>Deliverable Mapping</h2>
+        <table>
+          <thead><tr><th>Required Deliverable</th><th>Where to Review</th></tr></thead>
+          <tbody>
+            <tr><td>Working prototype</td><td><code>ai_assisted_shortener/app</code>, local UI, Swagger docs</td></tr>
+            <tr><td>Architecture overview</td><td><code>ai_assisted_shortener/docs/ARCHITECTURE.md</code></td></tr>
+            <tr><td>Three scenarios</td><td><code>ai_assisted_shortener/docs/SCENARIOS.md</code> and Engineering UI</td></tr>
+            <tr><td>Setup instructions</td><td><code>README.md</code> and <code>ai_assisted_shortener/README.md</code></td></tr>
+            <tr><td>Testing, limitations, trade-offs</td><td><code>ai_assisted_shortener/docs/TESTING.md</code></td></tr>
+            <tr><td>Requirement compliance</td><td><code>ai_assisted_shortener/docs/COMPLIANCE_MATRIX.md</code></td></tr>
+          </tbody>
+        </table>
+      </section>
+    </main>
+  </body>
+</html>

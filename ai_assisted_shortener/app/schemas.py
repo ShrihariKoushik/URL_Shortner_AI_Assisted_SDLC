@@ -52,8 +52,15 @@ class ExecuteRequirementRequest(BaseModel):
     engineer_notes: str | None = Field(default=None, max_length=1200)
     engineer_signoff: bool = False
     approval_role: str | None = Field(default=None, max_length=80)
+    engineer_actions: dict[str, str] | None = Field(default=None)
 
 
+
+
+class ImplementRequirementRequest(BaseModel):
+    requirement: str = Field(min_length=10, max_length=1200)
+    engineer_signoff: bool = False
+    approval_role: str | None = Field(default=None, max_length=80)
 class HealthResponse(BaseModel):
     status: str
     database: str
@@ -61,5 +68,4 @@ class HealthResponse(BaseModel):
 
 class ErrorResponse(BaseModel):
     detail: str
-
 

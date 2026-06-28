@@ -2,13 +2,14 @@ from functools import lru_cache
 from pathlib import Path
 
 from fastapi import Depends, FastAPI, Header, HTTPException, Request, status
-from fastapi.responses import FileResponse, PlainTextResponse, RedirectResponse
+from fastapi.responses import FileResponse, HTMLResponse, PlainTextResponse, RedirectResponse
 from fastapi.staticfiles import StaticFiles
 
 from app.config import Settings, get_settings
 from app.database import Database
 from app.engineering import EngineeringEvidenceService
-from app.schemas import CreateLinkRequest, ExecuteRequirementRequest, HealthResponse, LinkResponse, LinkStatsResponse
+from app.implementation import SecureImplementationService
+from app.schemas import CreateLinkRequest, ExecuteRequirementRequest, HealthResponse, ImplementRequirementRequest, LinkResponse, LinkStatsResponse
 from app.url_service import (
     LinkAlreadyExistsError,
     LinkClickLimitExceededError,
@@ -40,7 +41,16 @@ def get_url_service(settings: Settings = Depends(get_settings)) -> UrlService:
 @lru_cache
 def get_engineering_service() -> EngineeringEvidenceService:
     settings = get_settings()
-    return EngineeringEvidenceService(get_database(), require_signoff=settings.require_engineer_signoff)
+    return EngineeringEvidenceService(
+        get_database(),
+        require_signoff=settings.require_engineer_signoff,
+        settings=settings,
+    )
+
+
+@lru_cache
+def get_implementation_service() -> SecureImplementationService:
+    return SecureImplementationService(Path(__file__).resolve().parents[1], get_settings())
 
 
 @app.get("/", include_in_schema=False)
@@ -118,6 +128,7 @@ def execute_requirement(
         request.engineer_notes,
         request.engineer_signoff,
         request.approval_role,
+        request.engineer_actions,
     )
 
 
@@ -136,4 +147,40 @@ def engineering_summary(run_id: str, service: EngineeringEvidenceService = Depen
     except KeyError as exc:
         raise HTTPException(status_code=404, detail="engineering run not found") from exc
 
+@app.post("/implementation/execute")
+def execute_implementation(
+    request: ImplementRequirementRequest,
+    service: SecureImplementationService = Depends(get_implementation_service),
+):
+    return service.execute(request.requirement, request.engineer_signoff, request.approval_role)
 
+
+@app.get("/implementation/runs/{run_id}/download")
+def download_implementation(run_id: str, settings: Settings = Depends(get_settings)) -> FileResponse:
+    zip_path = settings.generated_workspace_root / f"{run_id}.zip"
+    if not zip_path.exists():
+        raise HTTPException(status_code=404, detail="implementation package not found")
+    return FileResponse(zip_path, media_type="application/zip", filename=f"implementation-{run_id}.zip")
+
+@app.get("/implementation/runs/{run_id}/preview", response_class=HTMLResponse)
+def preview_implementation(run_id: str, settings: Settings = Depends(get_settings)) -> str:
+    preview_root = settings.generated_workspace_root / run_id / "app" / "static"
+    index_path = preview_root / "index.html"
+    if not index_path.exists():
+        raise HTTPException(status_code=404, detail="generated UI preview not found")
+    html = index_path.read_text(encoding="utf-8")
+    html = html.replace('/static/styles.css', f'/implementation/runs/{run_id}/preview/static/styles.css')
+    html = html.replace('/static/app.js', f'/implementation/runs/{run_id}/preview/static/app.js')
+    return html
+
+
+@app.get("/implementation/runs/{run_id}/preview/static/{asset_name}")
+def preview_static_asset(run_id: str, asset_name: str, settings: Settings = Depends(get_settings)) -> FileResponse:
+    allowed_assets = {"app.js", "styles.css"}
+    if asset_name not in allowed_assets:
+        raise HTTPException(status_code=404, detail="generated asset not found")
+    asset_path = settings.generated_workspace_root / run_id / "app" / "static" / asset_name
+    if not asset_path.exists():
+        raise HTTPException(status_code=404, detail="generated asset not found")
+    media_type = "text/css" if asset_name.endswith(".css") else "application/javascript"
+    return FileResponse(asset_path, media_type=media_type)

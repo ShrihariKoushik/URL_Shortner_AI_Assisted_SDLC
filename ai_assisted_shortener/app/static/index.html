@@ -81,7 +81,7 @@
             <label>Engineer notes
               <textarea id="engineerNotes" rows="4">AI may suggest options, but engineer owns correctness, tests, trade-offs, and final approval.</textarea>
             </label>
-            <button id="runEngineering" type="button">Generate without approval</button><div class="approval-note" id="approvalNote">No approval recorded yet.</div>
+            <button id="runEngineering" type="button">Generate without approval</button><button id="runImplementation" type="button" class="secondary">Build real implementation package</button><div class="approval-note" id="approvalNote">No approval recorded yet.</div><div class="result" id="implementationResult">Generated code packages will appear here.</div>
           </div>
           <div class="panel evidence-panel" id="evidence">
             <p>Select a scenario and generate evidence to show decomposition, AI usage, engineer decisions, gates, risks, and summary.</p>
@@ -90,8 +90,7 @@
       </section>
     </main>
 
-    <script src="/static/app.js?v=2"></script>
+    <script src="/static/app.js?v=3"></script>
   </body>
 </html>
-
 
